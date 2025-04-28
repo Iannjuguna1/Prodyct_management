@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -57,7 +58,10 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_update_a_product()
     {
-        $product = Product::factory()->create();
+        $user = User::factory()->create();
+        $product = Product::factory()->create(['user_id' => $user->id]);
+
+        $this->actingAs($user); // Authenticate as the owner
 
         $data = [
             'name' => 'Updated Product Name',
@@ -75,7 +79,10 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_product()
     {
-        $product = Product::factory()->create();
+        $user = User::factory()->create();
+        $product = Product::factory()->create(['user_id' => $user->id]);
+
+        $this->actingAs($user); // Authenticate as the owner
 
         $response = $this->deleteJson("/api/products/{$product->id}");
 
@@ -83,5 +90,29 @@ class ProductControllerTest extends TestCase
                  ->assertJson(['message' => 'Product deleted successfully']);
 
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
+    }
+
+    /** @test */
+    public function it_can_search_products_by_name()
+    {
+        Product::factory()->create(['name' => 'Phone']);
+        Product::factory()->create(['name' => 'Laptop']);
+
+        $response = $this->getJson('/api/product/search?name=Phone');
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(1)
+                 ->assertJsonFragment(['name' => 'Phone']);
+    }
+
+    /** @test */
+    public function it_restricts_updating_a_product_to_the_owner()
+    {
+        $product = Product::factory()->create(['user_id' => 1]);
+        $this->actingAs(User::factory()->create(['id' => 2]));
+
+        $response = $this->putJson("/api/products/{$product->id}", ['name' => 'Updated Name']);
+
+        $response->assertStatus(403); // Forbidden
     }
 }
