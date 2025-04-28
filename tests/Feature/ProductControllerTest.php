@@ -25,6 +25,9 @@ class ProductControllerTest extends TestCase
     /** @test */
     public function it_can_create_a_new_product()
     {
+        $user = User::factory()->create(); // Create a user
+        $this->actingAs($user); // Authenticate the user
+
         $data = [
             'name' => 'Test Product',
             'description' => 'This is a test product.',
@@ -33,10 +36,13 @@ class ProductControllerTest extends TestCase
 
         $response = $this->postJson('/api/products', $data);
 
+        // Debugging: Output the response content
+        $response->dump();
+
         $response->assertStatus(201)
                  ->assertJsonFragment($data);
 
-        $this->assertDatabaseHas('products', $data);
+        $this->assertDatabaseHas('products', array_merge($data, ['user_id' => $user->id]));
     }
 
     /** @test */

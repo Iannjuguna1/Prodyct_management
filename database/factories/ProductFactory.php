@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
-            'price' => $this->faker->randomFloat(2, 0, 1000), // Random price between 0 and 1000
+            'price' => $this->faker->randomFloat(2, 0, 1000000), // Random price between 0 and 1000
             'user_id' => User::factory(), // Associate with a user
         ];
     }

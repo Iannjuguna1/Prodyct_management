@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
         ];
 
-        // Add conditional validation for description if price > 1000
+        // Conditional validation for description if price > 1000
         if ($this->input('price') > 1000) {
             $rules['description'] = 'required|string';
         }

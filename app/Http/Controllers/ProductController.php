@@ -17,7 +17,12 @@ class ProductController extends Controller
     // POST /api/products - Create a new product
     public function store(ProductRequest $request)
     {
-        $product = Product::create($request->validated());
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'user_id' => auth()->id(), // Associate the product with the authenticated user
+        ]);
 
         return response()->json($product, 201);
     }

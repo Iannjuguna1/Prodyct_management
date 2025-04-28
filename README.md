@@ -29,9 +29,8 @@ Before running the project, ensure you have the following installed on your syst
 
 1. **PHP** (version 8.0 or higher)
 2. **Composer** (Dependency Manager for PHP)
-3. **Node.js** (for frontend assets, version 14 or higher)
-4. **MySQL** (or any other database supported by Laravel)
-5. **XAMPP** (or any local server environment)
+3. **MySQL** (or any other database supported by Laravel)
+4. **XAMPP** (or any local server environment)
 
 ---
 
@@ -41,8 +40,9 @@ Follow these steps to set up and run the project:
 
 ### 1. Clone the Repository
 Clone the project repository to your local machine:
+
 ```bash
-git clone https://github.com/your-repo/product-management.git
+git clone https://github.com/Iannjuguna1/Prodyct_management
 cd product-management
 ```
 

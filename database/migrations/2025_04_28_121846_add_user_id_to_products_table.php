@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
@@ -18,16 +13,11 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['user_id']); // Drop the foreign key constraint
-            $table->dropColumn('user_id');   // Drop the user_id column
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 };

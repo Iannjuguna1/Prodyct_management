@@ -18,5 +18,6 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'user_id', // Add user_id to the fillable array
     ];
 }
